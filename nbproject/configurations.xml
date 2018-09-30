@@ -12,7 +12,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>configuration_bits.c</itemPath>
       <itemPath>interrupts.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>system.c</itemPath>
@@ -24,9 +23,6 @@
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>getting_started.txt</itemPath>
-    <itemPath>legal_disclaimer.txt</itemPath>
-    <itemPath>project_information.txt</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>
@@ -566,14 +562,6 @@
         <property key="stack-type" value="compiled"/>
       </XC8-config-global>
       <item path="adc.c" ex="false" overriding="false">
-        <HI-TECH-COMP>
-        </HI-TECH-COMP>
-        <HI-TECH-LINK>
-        </HI-TECH-LINK>
-        <XC8-config-global>
-        </XC8-config-global>
-      </item>
-      <item path="configuration_bits.c" ex="true" overriding="false">
         <HI-TECH-COMP>
         </HI-TECH-COMP>
         <HI-TECH-LINK>
