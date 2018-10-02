@@ -21,6 +21,40 @@ int uart_index = 0;
 int to_transmit = 0;
 
 
+
+
+void initUART() {
+    
+    // Set the EUSART1 module to the options selected in the user interface.
+
+    // ABDOVF no_overflow; SCKP Non-Inverted; BRG16 16bit_generator; WUE disabled; ABDEN disabled;
+    BAUD1CON = 0x08;
+
+    // SPEN enabled; RX9 8-bit; CREN enabled; ADDEN disabled; SREN disabled;
+//    RC1STA = 0x90;
+
+    // TX9 8-bit; TX9D 0; SENDB sync_break_complete; TXEN disabled; SYNC asynchronous; BRGH hi_speed; CSRC slave;
+//    TX1STA = 0x24;
+
+    // Baud Rate = 9600; SP1BRGL 64;
+    SP1BRGL = 0x40;
+
+    // Baud Rate = 9600; SP1BRGH 3;
+    SP1BRGH = 0x03;
+    
+    TX1STAbits.TXEN = 1;
+    TX1STAbits.SYNC = 0;
+    TX1STAbits.TX9 = 0;
+    TX1STAbits.BRGH = 1;
+    RC1STAbits.SPEN = 1;
+    RC1STAbits.CREN = 1;
+    
+    INTCONbits.PEIE = 1;
+    PIE3bits.RC1IE = 1;
+    
+}
+
+
 void UARTputc(char txData)
 {
     while(0 == PIR3bits.TX1IF)

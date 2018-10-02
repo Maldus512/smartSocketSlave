@@ -24,7 +24,9 @@
 #ifndef _PIC12
 
 char f_100ms = 0;
+char f_500ms = 0;
 
+static uint32_t milliseconds = 0;
 
 void interrupt isr(void)
 {
@@ -37,7 +39,7 @@ void interrupt isr(void)
         }
         if (count_1s++ >= 1000) {
             count_1s = 0;
-            LATCbits.LATC2 = ~LATCbits.LATC2;
+            //~LATCbits.LATC2;
         }
         PIR0bits.TMR0IF = 0;
     }
@@ -60,7 +62,12 @@ void interrupt isr(void)
             RC1STAbits.CREN = 0;
         }
         read = RC1REG;
-        UARTputc(read);
+        
+        if (read == 'a') {
+            LATCbits.LATC2 = ~LATCbits.LATC2;
+        }
+        
+        //UARTputc(read);
         RC1STAbits.CREN = 1;
     }
 }

@@ -10,7 +10,7 @@
 
 #include <stdint.h>         /* For uint8_t definition */
 #include <stdbool.h>        /* For true/false definition */
-
+#include <math.h>
 #include "adc.h"
 #include <stdint.h>
 
@@ -34,8 +34,8 @@ void initADC() {
     /* Voltage reference connected to VDD */
     ADCON1bits.ADPREF = 0b00;
     
-    /* Conversion clock = FOSC/2 */
-    ADCON1bits.ADCS = 0b110;
+    /* Conversion clock = FOSC/32 */
+    ADCON1bits.ADCS = 0b010;
     
     /* Right-justified result */
     ADCON1bits.ADFM = 1;
@@ -47,9 +47,9 @@ void initADC() {
 
 uint16_t readADC() {
     /* Select RC3 as ADC channel */
-    ADCON0bits.CHS = 0b010011;
-    
-    __delay_ms(2);
+//    ADCON0bits.CHS = 0b010011;
+//    
+//    __delay_us(10);
     ADCON0bits.GOnDONE = 1;
     
     while(ADCON0bits.GOnDONE) {
@@ -57,4 +57,31 @@ uint16_t readADC() {
     }
     
     return (ADRESH << 8) | ADRESL;
+}
+
+
+double currentRead(uint16_t calibration) {
+  int rVal = 0;
+  int value;
+  int sampleCount = 0;
+  unsigned long rSquaredSum = 0;
+  int rZero = calibration;                // For illustrative purposes only - should be measured to calibrate sensor.
+  int counter = 0;
+  
+  while(counter++ < 100)
+  {
+      value = (int)readADC();
+    rVal = value - rZero;
+    rSquaredSum += rVal * rVal;
+    sampleCount++;
+    __delay_ms(1);
+  }
+
+  double voltRMS = 5.0 * sqrt(rSquaredSum / sampleCount) / 1024.0;
+
+  // x 1000 to convert volts to millivolts
+  // divide by the number of millivolts per amp to determine amps measured
+  // the 20A module 100 mv/A (so in this case ampsRMS = 10 * voltRMS
+  double ampsRMS = voltRMS * 5.405;
+  return ampsRMS;
 }
