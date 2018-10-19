@@ -3,12 +3,17 @@
 /******************************************************************************/
 
 /* TODO Define system operating frequency */
+#ifndef __HARDWARE_H__
+#define __HARDWARE_H__
 
-#define UART_BUF    512
+#define _XTAL_FREQ  32000000UL
+#include <pic.h>
+#include <xc.h>
 
-extern char uart_buffer[UART_BUF];
-extern int uart_index, to_transmit;
 
-void UARTputc(char c);
-void UARTWrite(char* data, int len);
-void UARTBlockingWrite(char* data, int len);
+#define RELAY_TRIS      TRISCbits.TRISC2
+#define RELAY           LATCbits.LATC2
+
+
+
+#endif

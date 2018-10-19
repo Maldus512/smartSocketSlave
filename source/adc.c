@@ -76,6 +76,9 @@ double currentRead(uint16_t calibration) {
     sampleCount++;
     __delay_ms(1);
   }
+  
+  //double tmp = sqrt(rSquaredSum/sampleCount);
+  //return tmp;
 
   double voltRMS = 5.0 * sqrt(rSquaredSum / sampleCount) / 1024.0;
 

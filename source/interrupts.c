@@ -10,7 +10,7 @@
 
 #include <stdint.h>         /* For uint8_t definition */
 #include <stdbool.h>
-
+#include "hardware.h"
 #include "system.h"        /* For true/false definition */
 #include "uart.h"
 
@@ -64,7 +64,7 @@ void interrupt isr(void)
         read = RC1REG;
         
         if (read == 'a') {
-            LATCbits.LATC2 = ~LATCbits.LATC2;
+            RELAY = ~RELAY;
         }
         
         //UARTputc(read);

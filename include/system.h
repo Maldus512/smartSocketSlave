@@ -19,6 +19,6 @@ go here. */
 void ConfigureOscillator(void); /* Handles clock switching/osc initialization */
 void initTimer();
 void initGPIO();
-void initUART();
+
 
 void UARTputc(uint8_t c);

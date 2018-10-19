@@ -10,7 +10,7 @@
 
 #include <stdint.h>        /* For uint8_t definition */
 #include <stdbool.h>       /* For true/false definition */
-
+#include "hardware.h"
 #include "system.h"
 
 // CONFIG1
@@ -81,7 +81,7 @@ void initGPIO()
 {
     TRISCbits.TRISC4 = 0;
     TRISCbits.TRISC5 = 1;
-    TRISCbits.TRISC2 = 0;
+    RELAY_TRIS = 0;
     TRISCbits.TRISC1 = 1;
 
     ANSELCbits.ANSC4 = 0;
@@ -89,7 +89,7 @@ void initGPIO()
     ANSELCbits.ANSC2 = 0;
     ANSELCbits.ANSC1 = 0;
 
-    LATCbits.LATC2 = 0;
+    RELAY = 0;
  
     /* disable weak pull up for PORTC */
     WPUC = 0x00;
