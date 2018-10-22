@@ -9,10 +9,10 @@
 #endif
 
 #include <stdint.h>         /* For uint8_t definition */
-#include <stdbool.h>
 #include "hardware.h"
 #include "system.h"        /* For true/false definition */
 #include "uart.h"
+#include "state.h"
 
 /******************************************************************************/
 /* Interrupt Routines                                                         */
@@ -39,14 +39,13 @@ void interrupt isr(void)
         }
         if (count_1s++ >= 1000) {
             count_1s = 0;
-            //~LATCbits.LATC2;
         }
         PIR0bits.TMR0IF = 0;
     }
     
     if (PIR3bits.TX1IF) {
         if (to_transmit > 0) {
-            UARTputc(uart_buffer[uart_index++]);
+            UARTputc(uart_write_buffer[uart_tx_index++]);
             to_transmit--;
         }
         
@@ -63,11 +62,17 @@ void interrupt isr(void)
         }
         read = RC1REG;
         
-        if (read == 'a') {
-            RELAY = ~RELAY;
-        }
+        stato.f_transmitSensorReadings = 0;
         
-        //UARTputc(read);
+        if (read == '\r') {
+            UARTputc('\n');
+            UARTReceivedChar('\n');
+        }
+        else {
+            UARTReceivedChar(read);
+        }
+        UARTputc(read);
+        
         RC1STAbits.CREN = 1;
     }
 }

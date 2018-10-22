@@ -1,16 +1,26 @@
-/******************************************************************************/
-/* System Level #define Macros                                                */
-/******************************************************************************/
+#ifndef __UART_H__
+#define __UART_H__
 
-/* TODO Define system operating frequency */
+#define UART_BUF    64
 
-#define UART_BUF    512
+extern char uart_write_buffer[UART_BUF];
+extern int uart_tx_index, to_transmit;
 
-extern char uart_buffer[UART_BUF];
-extern int uart_index, to_transmit;
+
+typedef enum {
+    NO_CMD,
+    PRINT_READING,
+            ON,
+            OFF,
+            CALIBRATE
+} command_t;
 
 void initUART();
 
 void UARTputc(char c);
-void UARTWrite(char* data, int len);
 void UARTBlockingWrite(char* data, int len);
+void UARTReceivedChar(char data);
+
+command_t nextCommand();
+
+#endif

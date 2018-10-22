@@ -9,15 +9,25 @@
 #endif
 
 #include <stdint.h>         /* For uint8_t definition */
-#include <stdbool.h>        /* For true/false definition */
-#include <math.h>
 #include "adc.h"
-#include <stdint.h>
+#include <math.h>
 
 #define ACQ_US_DELAY 5
 #define _XTAL_FREQ  32000000UL
-
-
+/*
+double sqrt(double num)
+{
+    double guess, e, upperbound;
+    guess = 1;
+    e = 0.001;
+    do 
+    {
+        upperbound = num / guess;
+        guess = (upperbound + guess) / 2;
+    } while (!(guess * guess >= num - e && 
+               guess * guess <= num + e));
+    return guess;
+}*/
 
 /******************************************************************************/
 /* User Functions                                                             */
@@ -65,7 +75,7 @@ double currentRead(uint16_t calibration) {
   int value;
   int sampleCount = 0;
   unsigned long rSquaredSum = 0;
-  int rZero = calibration;                // For illustrative purposes only - should be measured to calibrate sensor.
+  int rZero = calibration;// 532;//calibration;                // For illustrative purposes only - should be measured to calibrate sensor.
   int counter = 0;
   
   while(counter++ < 100)

@@ -10,6 +10,7 @@
         <itemPath>include/interrupts.h</itemPath>
         <itemPath>include/system.h</itemPath>
         <itemPath>include/uart.h</itemPath>
+        <itemPath>include/state.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -21,6 +22,7 @@
         <itemPath>source/main.c</itemPath>
         <itemPath>source/system.c</itemPath>
         <itemPath>source/uart.c</itemPath>
+        <itemPath>source/state.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -184,6 +186,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

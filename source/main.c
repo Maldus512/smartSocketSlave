@@ -10,11 +10,11 @@
 #include "uart.h"
 #include "interrupts.h"
 #include "adc.h"
+#include "state.h"
 
 
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 
 
 uint8_t f_calibration = 0;
@@ -31,37 +31,56 @@ void initSystem(void)
 
 int main(void)
 {
-    char res[64];
-    unsigned long average = 0;
     int i;
-    uint16_t raw;
+    char stringa[64];
+    command_t command;
+    unsigned long average = 0;
     uint16_t calibration = 0;
-    uint16_t clean = 0;
-    uint8_t button;
+    
+    int calibrationMeanCount = 0;
     // initialize the device
     initSystem();
-    LATCbits.LATC2 = 1;
     
     while (1)
     {
+        command = nextCommand();
         
-        if (f_100ms) {
+        if (command == ON) {
+            RELAY = 1;
+            stato.f_relayOn = 1;
+        }
+        else if (command == OFF) {
+            RELAY = 0;
+            stato.f_relayOn = 0;
+            average = 0;
+            calibrationMeanCount = 0;
+        }
+        else if (command == PRINT_READING) {
+            stato.f_transmitSensorReadings = 1;
+        }
+        else if (command == CALIBRATE) {
+            f_calibration = 1;
+        }
+        
+        /*if (stato.f_relayOn == 0) {
+            average += readADC();
+            
+            if (calibrationMeanCount++ == 1000) {
+                calibrationMeanCount = 0;
+                calibration = average/1000;
+                average = 0;
+            }
+        }*/
+        
+        if (f_100ms && stato.f_transmitSensorReadings == 1) {
 //            button = PORTCbits.RC1;
 //            raw = readADC();
 //            clean = raw > calibration ? raw-calibration : 0;
-            sprintf(res, "current = %f\n\r", currentRead(calibration));
-            UARTBlockingWrite(res, strlen(res));
-            sprintf(res, "adc = %i\n\r", readADC());
-            UARTBlockingWrite(res, strlen(res));
+            sprintf(stringa, "current = %.3f\n\r", currentRead(calibration));
+            UARTBlockingWrite(stringa, strlen(stringa));
+            sprintf(stringa, "adc = %i - cal = %i\n\r", readADC(), calibration);
+            UARTBlockingWrite(stringa, strlen(stringa));
             f_100ms = 0;
-        }
-        
-        if (PORTCbits.RC1 == 0) {
-            __delay_ms(5);
-            
-            if (PORTCbits.RC1 == 0) {
-                f_calibration = 1;
-            }
         }
         
         if (f_calibration) {
@@ -76,9 +95,10 @@ int main(void)
             f_calibration = 0;
             
             UARTBlockingWrite("End calibration\n\r", 17);
-            sprintf(res, "average found = %u\n\r", calibration);
-            UARTBlockingWrite(res, strlen(res));
+            sprintf(stringa, "average found = %u\n\r", calibration);
+            UARTBlockingWrite(stringa, strlen(stringa));
         }
         
+        __delay_ms(1);
     }
 }
