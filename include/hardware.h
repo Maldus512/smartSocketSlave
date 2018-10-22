@@ -14,6 +14,8 @@
 #define RELAY_TRIS      TRISCbits.TRISC2
 #define RELAY           LATCbits.LATC2
 
+#define NOTIFY_TRIS     TRISCbits.TRISC0
+#define NOTIFY          LATCbits.LATC0
 
 
 #endif

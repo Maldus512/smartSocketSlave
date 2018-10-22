@@ -88,7 +88,10 @@ void initGPIO()
     ANSELCbits.ANSC5 = 0;
     ANSELCbits.ANSC2 = 0;
     ANSELCbits.ANSC1 = 0;
+    
+    NOTIFY_TRIS = 0;
 
+    NOTIFY = 0;
     RELAY = 0;
  
     /* disable weak pull up for PORTC */
@@ -126,7 +129,7 @@ void initTimer() {
     T0CON1bits.T0CKPS = 0b0000;
     T0CON0bits.T016BIT = 0;
 
-    /* By running 32 times the timer should be 1 ms */
+    /* By running 31 times the timer should be 1 ms */
     
     
     T0CON0bits.T0EN = 1;

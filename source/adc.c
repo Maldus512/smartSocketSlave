@@ -61,7 +61,7 @@ uint16_t readADC() {
 //    
 //    __delay_us(10);
     ADCON0bits.GOnDONE = 1;
-    
+        
     while(ADCON0bits.GOnDONE) {
         ;
     }
@@ -70,27 +70,25 @@ uint16_t readADC() {
 }
 
 
-double currentRead(uint16_t calibration) {
+double currentRead(uint16_t *calibration) {
   int rVal = 0;
   int value;
   int sampleCount = 0;
-  unsigned long rSquaredSum = 0;
-  int rZero = calibration;// 532;//calibration;                // For illustrative purposes only - should be measured to calibrate sensor.
+  unsigned long rSquaredSum = 0, sum = 0;
+  int rZero = *calibration;// 532;               // For illustrative purposes only - should be measured to calibrate sensor.
   int counter = 0;
   
-  while(counter++ < 100)
-  {
-      value = (int)readADC();
-    rVal = value - rZero;
-    rSquaredSum += rVal * rVal;
-    sampleCount++;
-    __delay_ms(1);
+  while(counter++ < 800) {
+        value = (int)readADC();
+        rVal = value - rZero;
+        sum += value;
+        rSquaredSum += rVal * rVal;
+        sampleCount++;
+        __delay_us(70);
   }
-  
-  //double tmp = sqrt(rSquaredSum/sampleCount);
-  //return tmp;
 
   double voltRMS = 5.0 * sqrt(rSquaredSum / sampleCount) / 1024.0;
+  *calibration = sum / sampleCount;
 
   // x 1000 to convert volts to millivolts
   // divide by the number of millivolts per amp to determine amps measured

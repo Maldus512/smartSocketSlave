@@ -23,22 +23,24 @@
  * _PIC12 */
 #ifndef _PIC12
 
-char f_100ms = 0;
-char f_500ms = 0;
+char f_readCurrentSensor = 0;
+char f_1s = 0;
+int count_1s = 0;
 
 static uint32_t milliseconds = 0;
 
 void interrupt isr(void)
 {
-    static int count_1s = 0;
+//    static int count_1s = 0;
     char read;
     
     if (PIR0bits.TMR0IF) {
-        if (count_1s % 100 == 0) {
-            f_100ms = 1;
+        if (count_1s % 200 == 0) {
+            f_readCurrentSensor = 1;
         }
         if (count_1s++ >= 1000) {
             count_1s = 0;
+            f_1s = 1;
         }
         PIR0bits.TMR0IF = 0;
     }

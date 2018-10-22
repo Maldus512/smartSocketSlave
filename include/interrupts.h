@@ -12,7 +12,8 @@
 extern "C" {
 #endif
 
-    extern char f_100ms;
+extern char f_readCurrentSensor;
+extern char f_1s;
 
 
 #ifdef	__cplusplus

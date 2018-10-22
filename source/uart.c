@@ -119,6 +119,7 @@ void UARTReceivedChar(char data) {
     }
 
     if (data == '\n') {
+        uart_read_buffer[uart_rx_index] = '\0';
         uart_rx_index = 0;
         cmd = strstr(uart_read_buffer, "AT");
 
@@ -133,6 +134,9 @@ void UARTReceivedChar(char data) {
         }
         else if (memcmp(cmd, "ATCAL", 5) == 0) {
             newCommand = CALIBRATE;
+        }
+        else if (memcmp(cmd, "ATRESET", 7) == 0) {
+            newCommand = RESET;
         }
         else {
             return;

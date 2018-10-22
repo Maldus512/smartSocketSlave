@@ -12,7 +12,8 @@ typedef enum {
     PRINT_READING,
             ON,
             OFF,
-            CALIBRATE
+            CALIBRATE,
+            RESET
 } command_t;
 
 void initUART();

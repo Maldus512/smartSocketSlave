@@ -8,6 +8,6 @@
 void initADC(void);         /* I/O and Peripheral Initialization */
 
 uint16_t readADC();
-double currentRead(uint16_t calibration);
+double currentRead(uint16_t *calibration);
 
 #endif
