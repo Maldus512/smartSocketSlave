@@ -9,15 +9,14 @@
 #endif
 
 #include <stdint.h>        /* For uint8_t definition */
-#include <stdbool.h>       /* For true/false definition */
 #include <string.h>
 
 #include "system.h"
 #include "uart.h"
 
 
-char uart_write_buffer[UART_BUF];
-char uart_read_buffer[UART_BUF];
+uint8_t uart_write_buffer[UART_BUF];
+uint8_t uart_read_buffer[UART_BUF];
 int uart_tx_index = 0;
 int uart_rx_index = 0;
 int to_transmit = 0;

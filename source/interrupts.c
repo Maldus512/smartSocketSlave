@@ -45,17 +45,17 @@ void __interrupt() isr(void)
         PIR0bits.TMR0IF = 0;
     }
     
-    if (PIR3bits.TX1IF) {
-        if (to_transmit > 0) {
-            UARTputc(uart_write_buffer[uart_tx_index++]);
-            to_transmit--;
-        }
-        
-        if (to_transmit <= 0) {
-            PIE3bits.TX1IE = 0;
-            to_transmit = 0;
-        }
-    }
+//    if (PIR3bits.TX1IF) {
+//        if (to_transmit > 0) {
+//            UARTputc(uart_write_buffer[uart_tx_index++]);
+//            to_transmit--;
+//        }
+//        
+//        if (to_transmit <= 0) {
+//            PIE3bits.TX1IE = 0;
+//            to_transmit = 0;
+//        }
+//    }
     
     if (PIR3bits.RC1IF) {
         
