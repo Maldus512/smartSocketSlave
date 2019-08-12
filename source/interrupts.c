@@ -29,7 +29,7 @@ int count_1s = 0;
 
 static uint32_t milliseconds = 0;
 
-void interrupt isr(void)
+void __interrupt() isr(void)
 {
 //    static int count_1s = 0;
     char read;
@@ -67,13 +67,13 @@ void interrupt isr(void)
         stato.f_transmitSensorReadings = 0;
         
         if (read == '\r') {
-            UARTputc('\n');
+            //UARTputc('\n');
             UARTReceivedChar('\n');
         }
         else {
             UARTReceivedChar(read);
         }
-        UARTputc(read);
+        //UARTputc(read);
         
         RC1STAbits.CREN = 1;
     }
